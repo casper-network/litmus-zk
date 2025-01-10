@@ -1,0 +1,11 @@
+name_of_chain = "TODO: a chain name"
+trusted_block_hash = "TODO: a trusted block hash"
+
+[fetcher]
+kind = "fsys"
+
+[fetcher.chain]
+ip_address_set = ["TODO: set of node ip addresses"]
+
+[fetcher.fsys]
+path_to_root = "TODO: path to reousrces folder"

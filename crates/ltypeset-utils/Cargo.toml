@@ -1,0 +1,9 @@
+[package]
+name = "ltypeset-utils"
+edition = "2021"
+version.workspace = true
+
+[dependencies]
+lcodecs = { path = "../lcodecs" }
+lcrypto = { path = "../lcrypto" }
+ltypeset = { path = "../ltypeset" }

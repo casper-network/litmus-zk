@@ -1,0 +1,14 @@
+[package]
+version = "0.1.0"
+name = "litmus-zk-program"
+edition = "2021"
+
+[build-dependencies]
+sp1-build = "2.0.0"
+
+[dependencies]
+ltypeset = { path = "../crates/ltypeset" }
+lverifiers = { path = "../crates/lverifiers" }
+serde.workspace = true
+serde_cbor.workspace = true
+sp1-zkvm = "1.2.0"

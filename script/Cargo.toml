@@ -1,0 +1,26 @@
+[package]
+version = "0.1.0"
+name = "litmus-zk-script"
+edition = "2021"
+default-run = "litmus-zk"
+
+[[bin]]
+name = "litmus-zk"
+path = "src/bin/main.rs"
+
+[dependencies]
+camino = "1.1.9"
+clap = { version = "4.0", features = ["derive", "env"] }
+hex.workspace = true
+humantime = "2.1.0"
+lkernel = { path = "../crates/lkernel" }
+ltypeset = { path = "../crates/ltypeset" }
+serde.workspace = true
+serde_cbor.workspace = true
+serde_json = "1.0.132"
+sp1-sdk = "1.2.0"
+toml = "0.8.19"
+tracing = "0.1.40"
+
+[build-dependencies]
+sp1-helper = "1.2.0"

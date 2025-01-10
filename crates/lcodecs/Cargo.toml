@@ -1,0 +1,15 @@
+[package]
+name = "lcodecs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ltypeset = { path = "../ltypeset" }
+num = "0.4.3"
+serde.workspace = true
+
+[dev-dependencies]
+hex.workspace = true
+proptest.workspace = true
+proptest-derive.workspace = true
+rand.workspace = true
