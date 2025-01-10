@@ -17,7 +17,7 @@ Static resources used primarily in testing & prototyping modes.
 
 `/pgms`
 
-Programs to be run within ZK virtual machines.  Designed to be as 'thin' as possibile, they offload work to verification crate.
+Programs to be run within ZK virtual machines ... one program per supported ZK-VM type.  They are designed to be as 'thin' as possibile, i.e. they simply offload work to verification crates.
 
 `/scripts`
 
