@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+# A type of actor representing a participating node.
+declare _ELF_NAME="litmus-riscv32im-zkvm-sp1-elf"
+
+# Set path -> output directory.
+declare _ELF_OUTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/elf
+
+# Set path -> SP1 toolchain bin.
+declare _SP1_BIN=$HOME/.sp1/bin1
+
 function _help() {
     echo "
     DESCRIPTION
@@ -14,13 +23,17 @@ function _help() {
 
 function _main()
 {
-    # Activate sp1 toolchain.
-    export PATH="$PATH:$HOME/.sp1/bin"
+    if [ -d "$_SP1_BIN" ]; then
+        # Activate sp1 toolchain.
+        export PATH="$PATH:$_SP1_BIN"
 
-    # Build elf.
-    cargo prove build \
-        --elf-name litmus-riscv32im-zkvm-sp1-elf \
-        --output-directory pgms/sp1/elf
+        # Build elf.
+        cargo prove build \
+            --elf-name "$_ELF_NAME" \
+            --output-directory "$_ELF_OUTDIR"
+    else
+        echo "ERROR :: SP1 toolchain is not installed."
+    fi
 }
 
 # ----------------------------------------------------------------
