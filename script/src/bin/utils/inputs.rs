@@ -3,10 +3,10 @@ use crate::fixtures::types::{
 };
 use sp1_sdk::SP1Stdin;
 
-const VERIFICATION_TYPE_DIGEST: u8 = 0;
-const VERIFICATION_TYPE_SIGNATURE: u8 = 1;
-const VERIFICATION_TYPE_BLOCK_V1_WITH_PROOFS: u8 = 10;
-const VERIFICATION_TYPE_BLOCK_V2_WITH_PROOFS: u8 = 11;
+const VERIFICATION_TYPE_BLOCK_V1_WITH_PROOFS: u8 = 0;
+const VERIFICATION_TYPE_BLOCK_V2_WITH_PROOFS: u8 = 1;
+const VERIFICATION_TYPE_CRYPTO_DIGEST: u8 = 10;
+const VERIFICATION_TYPE_CRYPTO_SIGNATURE: u8 = 11;
 
 impl From<Fixtures> for Vec<SP1Stdin> {
     fn from(value: Fixtures) -> Self {
@@ -25,7 +25,7 @@ impl From<Fixtures> for Vec<SP1Stdin> {
 impl From<&WrappedDigest> for SP1Stdin {
     fn from(value: &WrappedDigest) -> Self {
         let mut vm_stdin = Self::new();
-        vm_stdin.write(&VERIFICATION_TYPE_DIGEST);
+        vm_stdin.write(&VERIFICATION_TYPE_CRYPTO_DIGEST);
         vm_stdin.write_vec(serde_cbor::to_vec(value.inner()).unwrap());
         vm_stdin.write_vec(value.msg());
 
@@ -36,7 +36,7 @@ impl From<&WrappedDigest> for SP1Stdin {
 impl From<&WrappedSignature> for SP1Stdin {
     fn from(value: &WrappedSignature) -> Self {
         let mut vm_stdin = Self::new();
-        vm_stdin.write(&VERIFICATION_TYPE_SIGNATURE);
+        vm_stdin.write(&VERIFICATION_TYPE_CRYPTO_SIGNATURE);
         vm_stdin.write_vec(serde_cbor::to_vec(value.sig()).unwrap());
         vm_stdin.write_vec(serde_cbor::to_vec(value.vkey()).unwrap());
         vm_stdin.write_vec(serde_cbor::to_vec(value.msg()).unwrap());

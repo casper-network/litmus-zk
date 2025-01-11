@@ -6,10 +6,10 @@ mod chain;
 mod crypto;
 
 // Supported verification types.
-const VERIFICATION_TYPE_DIGEST: u8 = 0;
-const VERIFICATION_TYPE_SIGNATURE: u8 = 1;
-const VERIFICATION_TYPE_BLOCK_V1_WITH_PROOFS: u8 = 10;
-const VERIFICATION_TYPE_BLOCK_V2_WITH_PROOFS: u8 = 11;
+const VERIFICATION_TYPE_BLOCK_V1_WITH_PROOFS: u8 = 0;
+const VERIFICATION_TYPE_BLOCK_V2_WITH_PROOFS: u8 = 1;
+const VERIFICATION_TYPE_CRYPTO_DIGEST: u8 = 10;
+const VERIFICATION_TYPE_CRYPTO_SIGNATURE: u8 = 11;
 
 /// Program entry point - wrapped by sp1 for execution within zk-vm.
 ///
@@ -23,10 +23,10 @@ pub fn main() {
         VERIFICATION_TYPE_BLOCK_V2_WITH_PROOFS => {
             chain::verify_block_v2_with_proofs(sp1_zkvm::io::read_vec(), sp1_zkvm::io::read_vec())
         }
-        VERIFICATION_TYPE_DIGEST => {
+        VERIFICATION_TYPE_CRYPTO_DIGEST => {
             crypto::verify_digest(sp1_zkvm::io::read_vec(), sp1_zkvm::io::read_vec())
         }
-        VERIFICATION_TYPE_DIGEST_SIGNATURE => {
+        VERIFICATION_TYPE_CRYPTO_DIGEST_SIGNATURE => {
             crypto::verify_digest_signature(
                 sp1_zkvm::io::read_vec(),
                 sp1_zkvm::io::read_vec(),

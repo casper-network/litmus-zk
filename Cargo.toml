@@ -7,7 +7,7 @@ members = [
     "crates/ltypeset",
     "crates/ltypeset-utils",
     "crates/lverifiers",
-    "zk-pgms/sp1",
+    "pgms/sp1",
 ]
 
 [workspace.package]

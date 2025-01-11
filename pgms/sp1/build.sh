@@ -20,7 +20,7 @@ function _main()
     # Build elf.
     cargo prove build \
         --elf-name litmus-riscv32im-zkvm-sp1-elf \
-        --output-directory zk-pgms/sp1/elf
+        --output-directory pgms/sp1/elf
 }
 
 # ----------------------------------------------------------------
