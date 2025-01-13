@@ -7,7 +7,7 @@ declare _ELF_NAME="litmus-riscv32im-zkvm-sp1-elf"
 declare _ELF_OUTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/elf
 
 # Set path -> SP1 toolchain bin.
-declare _SP1_BIN=$HOME/.sp1/bin1
+declare _SP1_BIN=$HOME/.sp1/bin
 
 function _help() {
     echo "
