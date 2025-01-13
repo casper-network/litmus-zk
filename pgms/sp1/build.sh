@@ -24,10 +24,7 @@ function _help() {
 function _main()
 {
     if [ -d "$_SP1_BIN" ]; then
-        # Activate sp1 toolchain.
         export PATH="$PATH:$_SP1_BIN"
-
-        # Build elf.
         cargo prove build \
             --elf-name "$_ELF_NAME" \
             --output-directory "$_ELF_OUTDIR"
