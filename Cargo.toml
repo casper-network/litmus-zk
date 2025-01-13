@@ -5,7 +5,6 @@ members = [
     "crates/lkernel",
     "crates/ltypeset",
     "crates/ltypeset-utils",
-    "crates/lverifiers",
     "pgms/sp1",
     "script",
 ]

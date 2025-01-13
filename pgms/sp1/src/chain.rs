@@ -1,5 +1,5 @@
 use ltypeset::chain::{BlockWithProofs, ChainNameDigest};
-use lverifiers;
+use ltypeset_utils::verifiers;
 
 pub fn verify_block_v1_with_proofs(encoded_block_with_proofs: Vec<u8>) {
     unimplemented!("verify_block_v1_with_proofs");
@@ -14,5 +14,5 @@ pub fn verify_block_v2_with_proofs(
     let chain_name_digest: ChainNameDigest =
         serde_cbor::from_slice(&encoded_chain_name_digest).unwrap();
 
-    lverifiers::verify_block_v2_with_proofs(block_with_proofs, chain_name_digest, None);
+    verifiers::verify_block_v2_with_proofs(block_with_proofs, chain_name_digest, None);
 }

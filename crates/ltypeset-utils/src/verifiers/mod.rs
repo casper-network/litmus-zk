@@ -1,5 +1,5 @@
+use crate::crypto::{get_digest_bytes_for_block, get_signature_bytes_for_block_finality};
 use ltypeset::chain::{Block, BlockHash, BlockWithProofs, ChainNameDigest, EraConsensusInfo};
-use ltypeset_utils::crypto::{get_digest_bytes_for_block, get_signature_bytes_for_block_finality};
 
 /// Verifies a version two block.
 ///
@@ -23,9 +23,7 @@ pub fn verify_block_v2_with_proofs(
     // BL-001: Verify that recomputed block hash is equal to actual block hash.
     let recomputed_block_hash =
         BlockHash::from(get_digest_bytes_for_block(&block_with_proofs.block()));
-    // assert_eq!(block_with_proofs.block().hash(), &recomputed_block_hash);
-
-    // let digest = BlockHash::from(get_digest_bytes_for_block(&block_with_proofs.block()));
+    assert_eq!(block_with_proofs.block().hash(), &recomputed_block_hash);
 
     // BL-002: Verify that switch block is not from a previous era.
 
@@ -37,6 +35,8 @@ pub fn verify_block_v2_with_proofs(
     for proof in block_with_proofs.proofs() {
         proof.signature().verify(proof.verification_key(), &msg);
     }
+
+    panic!("dsads");
 
     // BL-005: Verify that weight of finality signatures is sufficient.
 }

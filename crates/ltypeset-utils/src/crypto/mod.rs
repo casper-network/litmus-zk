@@ -14,20 +14,21 @@ pub fn get_digest_bytes_for_block(block: &Block) -> Vec<u8> {
             unimplemented!()
         }
         Block::V2(inner) => {
+            let header = inner.header();
             for encoded in [
-                inner.header().parent_hash().encode(),
-                inner.header().state_root_hash().encode(),
-                inner.header().body_hash().encode(),
-                inner.header().random_bit().encode(),
-                inner.header().accumulated_seed().encode(),
-                // inner.header().era_end().encode(),
-                inner.header().timestamp().encode(),
-                inner.header().era_id().encode(),
-                inner.header().height().encode(),
-                // inner.header().protocol_version().encode(),
-                inner.header().proposer().encode(),
-                inner.header().current_gas_price().encode(),
-                // inner.header().last_switch_block_hash().encode(),
+                header.parent_hash().encode(),
+                header.state_root_hash().encode(),
+                header.body_hash().encode(),
+                header.random_bit().encode(),
+                header.accumulated_seed().encode(),
+                // header.era_end().encode(),
+                header.timestamp().encode(),
+                header.era_id().encode(),
+                header.height().encode(),
+                header.protocol_version().encode(),
+                header.proposer().encode(),
+                header.current_gas_price().encode(),
+                header.last_switch_block_hash().encode(),
             ] {
                 result.extend_from_slice(encoded.unwrap().as_slice());
             }

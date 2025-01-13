@@ -8,7 +8,7 @@ sp1-build = "2.0.0"
 
 [dependencies]
 ltypeset = { path = "../../crates/ltypeset" }
-lverifiers = { path = "../../crates/lverifiers" }
+ltypeset-utils = { path = "../../crates/ltypeset-utils" }
 serde.workspace = true
 serde_cbor.workspace = true
 sp1-zkvm = "1.2.0"
