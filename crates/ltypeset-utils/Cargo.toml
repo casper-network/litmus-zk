@@ -4,6 +4,7 @@ edition = "2021"
 version.workspace = true
 
 [dependencies]
-lcodecs = { path = "../lcodecs" }
 lcrypto = { path = "../lcrypto" }
 ltypeset = { path = "../ltypeset" }
+num = "0.4.3"
+serde.workspace = true

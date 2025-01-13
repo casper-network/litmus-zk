@@ -1,7 +1,6 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/lcodecs",
     "crates/lcrypto",
     "crates/lkernel",
     "crates/ltypeset",
