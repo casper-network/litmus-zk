@@ -1,10 +1,7 @@
 extern crate alloc;
 
 use crate::{
-    chain::{
-        BlockHash, BlockHeight, ChainNameDigest, EraEndV2, EraId, ProtocolVersion,
-        TransactionV2Hash,
-    },
+    chain::{BlockHash, BlockHeight, EraEndV2, EraId, ProtocolVersion, TransactionV2Hash},
     crypto::{Digest, PublicKey},
     primitives::time::Timestamp,
 };
@@ -88,7 +85,6 @@ pub struct BlockHeader {
 
 impl Block {
     pub fn new(body: BlockBody, hash: BlockHash, header: BlockHeader) -> Self {
-        // TODO: validate inputs.
         Self { body, hash, header }
     }
 }
@@ -98,7 +94,6 @@ impl BlockBody {
         rewarded_signatures: Vec<Vec<u8>>,
         transactions: BTreeMap<u8, Vec<TransactionV2Hash>>,
     ) -> Self {
-        // TODO: validate inputs.
         Self {
             rewarded_signatures,
             transactions,
@@ -219,60 +214,5 @@ impl BlockHeader {
 
     pub fn timestamp(&self) -> &Timestamp {
         &self.timestamp
-    }
-}
-
-// ------------------------------------------------------------------------
-// Methods.
-// ------------------------------------------------------------------------
-
-impl Block {
-    /// Returns a sequence of bytes for mapping to a block digest.
-    pub fn get_bytes_for_digest(&self) -> Vec<u8> {
-        self.header().get_bytes_for_digest()
-    }
-
-    /// Returns a sequence of bytes to be signed over when commiting to block finality.
-    pub fn get_bytes_for_finality_signature(&self, chain_name_digest: &ChainNameDigest) -> Vec<u8> {
-        let mut result: Vec<u8> = Vec::new();
-        result.extend_from_slice(self.hash().inner().as_slice());
-        result.extend_from_slice(self.header().height().inner().to_le_bytes().as_slice());
-        result.extend_from_slice(self.header().era_id().inner().to_le_bytes().as_slice());
-        result.extend_from_slice(chain_name_digest.inner().as_slice());
-
-        result
-    }
-}
-
-impl BlockBody {
-    /// Returns a sequence of bytes for mapping to a block digest.
-    pub fn get_bytes_for_digest(&self) -> Vec<u8> {
-        unimplemented!()
-    }
-}
-
-impl BlockHeader {
-    /// Returns a sequence of bytes for mapping to a block digest.
-    pub fn get_bytes_for_digest(&self) -> Vec<u8> {
-        let mut result: Vec<u8> = Vec::new();
-        result.extend_from_slice(self.parent_hash().inner().as_slice());
-        result.extend_from_slice(self.state_root_hash().as_slice());
-        result.extend_from_slice(self.body_hash().as_slice());
-        result.extend_from_slice(
-            u8::from(self.random_bit().to_owned())
-                .to_le_bytes()
-                .as_slice(),
-        );
-        result.extend_from_slice(self.accumulated_seed().as_slice());
-        // result.extend_from_slice(self.era_end().hash(state););
-        result.extend_from_slice(self.timestamp().inner().to_le_bytes().as_slice());
-        result.extend_from_slice(self.era_id().inner().to_le_bytes().as_slice());
-        result.extend_from_slice(self.height().inner().to_le_bytes().as_slice());
-        // result.extend_from_slice(self.protocol_version());
-        result.extend_from_slice(self.proposer().as_slice());
-        result.extend_from_slice(self.current_gas_price().to_le_bytes().as_slice());
-        // result.extend_from_slice(self.last_switch_block_hash().unwrap().inner().as_slice());
-
-        result
     }
 }

@@ -62,9 +62,11 @@ impl<T: Encode> Encode for Option<T> {
     fn write_encoded(&self, writer: &mut Vec<u8>) -> Result<(), CodecError> {
         match self {
             None => {
+                println!("TAG_OPTION_NONE");
                 writer.push(constants::TAG_OPTION_NONE);
             }
             Some(inner) => {
+                println!("TAG_OPTION_SOME");
                 writer.push(constants::TAG_OPTION_SOME);
                 inner.write_encoded(writer).unwrap();
             }

@@ -23,7 +23,8 @@ pub fn verify_block_v2_with_proofs(
     // BL-001: Verify that recomputed block hash is equal to actual block hash.
     let recomputed_block_hash =
         BlockHash::from(get_digest_bytes_for_block(&block_with_proofs.block()));
-    assert_eq!(block_with_proofs.block().hash(), &recomputed_block_hash);
+    println!("{:?}", recomputed_block_hash);
+    assert_eq!(&recomputed_block_hash, block_with_proofs.block().hash());
 
     // BL-002: Verify that switch block is not from a previous era.
 

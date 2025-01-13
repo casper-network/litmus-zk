@@ -49,6 +49,7 @@ fn main() {
         Some(block) => WrappedBlockV2WithProofs(block, kernel.get_chain_name_digest()),
         None => panic!("Invalid trusted hash"),
     };
+
     set_of_stdin.push(SP1Stdin::try_from(&g).unwrap());
 
     // Invoke stdin set.

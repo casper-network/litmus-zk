@@ -21,7 +21,7 @@ pub fn get_digest_bytes_for_block(block: &Block) -> Vec<u8> {
                 header.body_hash().encode(),
                 header.random_bit().encode(),
                 header.accumulated_seed().encode(),
-                // header.era_end().encode(),
+                header.era_end().encode(),
                 header.timestamp().encode(),
                 header.era_id().encode(),
                 header.height().encode(),

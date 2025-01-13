@@ -23,7 +23,8 @@ Cargo.lock
 # Hacking folder.
 /hack
 
-# Temporary folder.
+# Temporary folders.
+/elf
 /tmp
 
 # Local todo
