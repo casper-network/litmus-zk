@@ -65,8 +65,10 @@ impl Kernel {
 
 impl Kernel {
     /// Initialises kernel components.
-    pub fn init(&self) {
+    pub fn init(self) -> Self {
         self.fetcher.init().unwrap();
+
+        self
     }
 
     /// Returns block with associated proofs.

@@ -8,6 +8,7 @@ members = [
     "crates/ltypeset-utils",
     "crates/lverifiers",
     "pgms/sp1",
+    "script",
 ]
 
 [workspace.package]

@@ -8,7 +8,7 @@ use sp1_sdk::{ProverClient, SP1Stdin};
 use std::{fs, path::PathBuf};
 
 /// The ELF (executable and linkable format) file for the Succinct RISC-V zkVM.
-pub const _ELF: &[u8] = include_bytes!("../../../elf/riscv32im-succinct-zkvm-elf");
+pub const _ELF: &[u8] = include_bytes!("../../../pgms/sp1/elf/litmus-riscv32im-zkvm-sp1-elf");
 
 /// The arguments for the command.
 #[derive(Parser, Debug)]
@@ -39,8 +39,7 @@ fn main() {
     sp1_sdk::utils::setup_logger();
 
     // Set kernel.
-    let kernel = Kernel::new(&args.path_to_config);
-    kernel.init();
+    let kernel = Kernel::new(&args.path_to_config).init();
 
     // Set stdin set ... i.e. a sequence of ZK-VM prover inputs.
     let mut set_of_stdin = Vec::<SP1Stdin>::new();
