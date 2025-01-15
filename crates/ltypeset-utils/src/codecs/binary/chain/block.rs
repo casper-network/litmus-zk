@@ -312,3 +312,19 @@ impl Encode for BlockV2Header {
         Ok(())
     }
 }
+
+// ------------------------------------------------------------------------
+// Tests.
+// ------------------------------------------------------------------------
+
+#[cfg(test)]
+use proptest::prelude::*;
+
+#[cfg(test)]
+use rand::Rng;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::codecs::binary::utils::assert_codec;
+}

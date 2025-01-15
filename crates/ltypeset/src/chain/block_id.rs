@@ -109,6 +109,12 @@ impl From<&str> for BlockHash {
     }
 }
 
+impl From<&str> for BlockID {
+    fn from(value: &str) -> Self {
+        Self::BlockHash(BlockHash::from(value))
+    }
+}
+
 impl From<&[u8]> for BlockHash {
     fn from(value: &[u8]) -> Self {
         Self::new(Digest::from(value))
@@ -160,5 +166,67 @@ impl From<u64> for BlockHeight {
 impl From<u64> for BlockID {
     fn from(value: u64) -> Self {
         Self::from(BlockHeight::from(value))
+    }
+}
+
+// ------------------------------------------------------------------------
+// Tests.
+// ------------------------------------------------------------------------
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    mod data {
+        pub const BLOCK_HASH_HEX: &str =
+            "b3f473058b6065c1d08a400dbc76054e491513a8b102c1709561730294c5a88e";
+        pub const BLOCK_HEIGHT: u64 = u64::MAX;
+    }
+
+    mod utils {
+        use super::super::*;
+        use rand::Rng;
+
+        impl BlockHash {
+            pub fn new_from_random() -> Self {
+                Self::new(Digest::new_from_random())
+            }
+        }
+
+        impl BlockHeight {
+            pub fn new_from_random() -> Self {
+                Self::new(rand::thread_rng().gen())
+            }
+        }
+
+        impl BlockID {
+            pub fn new_from_random_hash() -> Self {
+                Self::BlockHash(BlockHash::new_from_random())
+            }
+
+            pub fn new_from_random_height() -> Self {
+                Self::BlockHeight(BlockHeight::new_from_random())
+            }
+        }
+    }
+
+    #[test]
+    fn test_new_block_hash() {
+        let _ = BlockHash::from(data::BLOCK_HASH_HEX);
+        let _ = BlockHash::new_from_random();
+    }
+
+    #[test]
+    fn test_new_block_height() {
+        let _ = BlockHeight::from(data::BLOCK_HEIGHT);
+        let _ = BlockHeight::new_from_random();
+    }
+
+    #[test]
+    fn test_new_block_id() {
+        let _ = BlockID::from(data::BLOCK_HASH_HEX);
+        let _ = BlockID::new_from_random_hash();
+        let _ = BlockID::from(data::BLOCK_HEIGHT);
+        let _ = BlockID::new_from_random_height();
     }
 }

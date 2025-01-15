@@ -128,6 +128,12 @@ impl From<&Vec<u8>> for Digest {
     }
 }
 
+impl From<Bytes32> for Digest {
+    fn from(value: Bytes32) -> Self {
+        Self::from(value.as_slice())
+    }
+}
+
 // ------------------------------------------------------------------------
 // Traits -> serde.
 // ------------------------------------------------------------------------
@@ -184,56 +190,61 @@ impl Serialize for Digest {
 // ------------------------------------------------------------------------
 
 #[cfg(test)]
-use rand::Rng;
-
-#[cfg(test)]
-impl Digest {
-    /// Returns a random `Digest`.
-    #[cfg(any(feature = "testing", test))]
-    pub fn random() -> Self {
-        let g: [u8; 32] = rand::thread_rng().gen();
-
-        Self::from(g.as_slice())
-    }
-}
-
-#[cfg(test)]
 mod tests {
     use super::*;
     use hex;
 
-    const MSG: &[u8] = "أبو يوسف يعقوب بن إسحاق الصبّاح الكندي‎".as_bytes();
-    const MSG_DIGEST_BLAKE2B_HEX: &str =
-        "44682ea86b704fb3c65cd16f84a76b621e04bbdb3746280f25cf062220e471b4";
+    mod data {
+        pub const MSG: &[u8] = "أبو يوسف يعقوب بن إسحاق الصبّاح الكندي‎".as_bytes();
+        pub const MSG_DIGEST_BLAKE2B_HEX: &str =
+            "44682ea86b704fb3c65cd16f84a76b621e04bbdb3746280f25cf062220e471b4";
+    }
+
+    mod utils {
+        use super::{Bytes32, Digest};
+
+        impl Digest {
+            pub fn new_from_random() -> Self {
+                Self::from(Bytes32::new_from_random())
+            }
+        }
+    }
+
+    #[test]
+    fn test_new_from_random() {
+        for _ in 0..10 {
+            Digest::new_from_random();
+        }
+    }
 
     #[test]
     fn test_new_from_str() {
-        let _ = Digest::from(MSG_DIGEST_BLAKE2B_HEX);
+        let _ = Digest::from(data::MSG_DIGEST_BLAKE2B_HEX);
     }
 
     #[test]
     fn test_new_from_vec() {
-        let as_vec = hex::decode(MSG_DIGEST_BLAKE2B_HEX).unwrap();
-        let _ = Digest::from(as_vec);
+        let _ = Digest::from(Bytes32::new_from_random().inner().to_vec());
     }
 
     #[test]
     fn test_accessor_as_slice() {
-        let _ = Digest::from(MSG_DIGEST_BLAKE2B_HEX).as_slice();
+        Digest::new_from_random().as_slice();
     }
 
     #[test]
     fn test_verify() {
-        let digest = Digest::from(MSG_DIGEST_BLAKE2B_HEX);
+        let digest = Digest::from(data::MSG_DIGEST_BLAKE2B_HEX);
 
-        assert_eq!(digest.verify(MSG.to_vec()), ());
+        assert_eq!(digest.verify(data::MSG.to_vec()), ());
     }
 
     #[test]
     #[should_panic]
     fn test_panic_on_verification_failure() {
-        let digest = Digest::random();
+        let digest = Digest::new_from_random();
+        let msg = Bytes32::new_from_random();
 
-        digest.verify(MSG.to_vec());
+        digest.verify(msg.inner().to_vec());
     }
 }

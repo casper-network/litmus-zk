@@ -154,6 +154,12 @@ impl<const N: usize> From<&String> for Bytes<N> {
     }
 }
 
+impl<const N: usize> From<Bytes<N>> for usize {
+    fn from(_: Bytes<N>) -> Self {
+        N
+    }
+}
+
 // ------------------------------------------------------------------------
 // Tests.
 // ------------------------------------------------------------------------
@@ -162,91 +168,68 @@ impl<const N: usize> From<&String> for Bytes<N> {
 use proptest::prelude::*;
 
 #[cfg(test)]
-use rand::Rng;
-
-#[cfg(test)]
-pub fn new_from_random<const N: usize>() -> Bytes<N> {
-    let mut rng = rand::thread_rng();
-    let mut buffer = vec![0u8; N];
-    rng.fill(&mut buffer[..]);
-
-    Bytes::<N>::from(buffer)
-}
-
-#[cfg(test)]
-impl Bytes32 {
-    pub fn new_from_arb() -> impl Strategy<Value = Self> {
-        any::<[u8; SIZE_32]>().prop_map(Self::new)
-    }
-
-    fn new_from_random() -> Bytes32 {
-        new_from_random::<SIZE_32>()
-    }
-}
-
-#[cfg(test)]
-impl Bytes33 {
-    pub fn new_from_arb() -> impl Strategy<Value = Self> {
-        any::<[u8; SIZE_33]>().prop_map(Self::new)
-    }
-
-    fn new_from_random() -> Bytes33 {
-        new_from_random::<SIZE_33>()
-    }
-}
-
-#[cfg(test)]
-impl Bytes64 {
-    pub fn new_from_arb() -> impl Strategy<Value = Self> {
-        any::<[u8; SIZE_64]>().prop_map(Self::new)
-    }
-
-    fn new_from_random() -> Bytes64 {
-        new_from_random::<SIZE_64>()
-    }
-}
-
-#[cfg(test)]
-impl Bytes65 {
-    pub fn new_from_arb() -> impl Strategy<Value = Self> {
-        any::<[u8; SIZE_65]>().prop_map(Self::new)
-    }
-
-    fn new_from_random() -> Bytes65 {
-        new_from_random::<SIZE_65>()
-    }
-}
-
-#[cfg(test)]
 mod tests {
     use super::*;
 
-    #[test]
-    fn new_from_random_32() {
-        for _ in 0..10 {
-            let _ = Bytes32::new_from_random();
+    mod utils {
+        use super::super::*;
+        use rand::Rng;
+
+        pub fn new_from_random<const N: usize>() -> Bytes<N> {
+            let mut rng = rand::thread_rng();
+            let mut buffer = vec![0u8; N];
+            rng.fill(&mut buffer[..]);
+
+            Bytes::<N>::from(buffer)
+        }
+
+        impl Bytes32 {
+            pub fn new_from_arb() -> impl Strategy<Value = Self> {
+                any::<[u8; SIZE_32]>().prop_map(Self::new)
+            }
+
+            pub fn new_from_random() -> Bytes32 {
+                new_from_random::<SIZE_32>()
+            }
+        }
+
+        impl Bytes33 {
+            pub fn new_from_arb() -> impl Strategy<Value = Self> {
+                any::<[u8; SIZE_33]>().prop_map(Self::new)
+            }
+
+            pub fn new_from_random() -> Bytes33 {
+                new_from_random::<SIZE_33>()
+            }
+        }
+
+        impl Bytes64 {
+            pub fn new_from_arb() -> impl Strategy<Value = Self> {
+                any::<[u8; SIZE_64]>().prop_map(Self::new)
+            }
+
+            pub fn new_from_random() -> Bytes64 {
+                new_from_random::<SIZE_64>()
+            }
+        }
+
+        impl Bytes65 {
+            pub fn new_from_arb() -> impl Strategy<Value = Self> {
+                any::<[u8; SIZE_65]>().prop_map(Self::new)
+            }
+
+            pub fn new_from_random() -> Bytes65 {
+                new_from_random::<SIZE_65>()
+            }
         }
     }
 
     #[test]
-    fn new_from_random_33() {
-        for _ in 0..10 {
-            let _ = Bytes33::new_from_random();
-        }
-    }
-
-    #[test]
-    fn new_from_random_64() {
-        for _ in 0..10 {
-            let _ = Bytes64::new_from_random();
-        }
-    }
-
-    #[test]
-    fn new_from_random_65() {
-        for _ in 0..10 {
-            let _ = Bytes65::new_from_random();
-        }
+    fn new_from_random() {
+        assert_eq!(SIZE_32, Bytes32::new_from_random().into());
+        assert_eq!(SIZE_33, Bytes33::new_from_random().into());
+        assert_eq!(SIZE_64, Bytes64::new_from_random().into());
+        assert_eq!(SIZE_65, Bytes65::new_from_random().into());
     }
 
     proptest! {
