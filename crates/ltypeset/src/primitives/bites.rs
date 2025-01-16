@@ -168,10 +168,11 @@ impl<const N: usize> From<Bytes<N>> for usize {
 use proptest::prelude::*;
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use super::*;
 
-    mod utils {
+    #[cfg(test)]
+    pub mod utils {
         use super::super::*;
         use rand::Rng;
 

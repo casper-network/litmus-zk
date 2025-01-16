@@ -6,5 +6,11 @@ version.workspace = true
 [dependencies]
 lcrypto = { path = "../lcrypto" }
 ltypeset = { path = "../ltypeset" }
+hex.workspace = true
 num = "0.4.3"
 serde.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+proptest-derive.workspace = true
+rand.workspace = true

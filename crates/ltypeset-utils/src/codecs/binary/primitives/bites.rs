@@ -108,3 +108,20 @@ impl Encode for Bytes65 {
         Ok(())
     }
 }
+
+// ------------------------------------------------------------------------
+// Tests.
+// ------------------------------------------------------------------------
+
+#[cfg(test)]
+mod tests {
+    use super::super::super::utils::assert_codec;
+    use ltypeset::primitives::bites::tests::utils;
+    use ltypeset::primitives::bites::{Bytes, Bytes32, Bytes33, Bytes64, Bytes65};
+
+    #[test]
+    fn test_codec_bytes_32() {
+        let entity = Bytes::<32>::utils::new_from_random();
+        assert_codec(&entity);
+    }
+}
